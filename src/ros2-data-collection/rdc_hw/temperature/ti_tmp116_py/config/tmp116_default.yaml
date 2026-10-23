@@ -1,0 +1,5 @@
+tmp116_node:
+  ros__parameters:
+    i2c_bus: 1
+    i2c_address: 0x48
+    publish_rate_hz: 1.0

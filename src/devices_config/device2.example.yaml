@@ -1,0 +1,24 @@
+# Generic review template: independently configured mock sensor worker.
+device_name: device2
+pi_ip: "<DEVICE_HOST>"
+pi_user: "<SSH_USER>"
+container_name: "<ROS_CONTAINER>"
+mqtt_broker: localhost
+accepted_master_device_id: review_pc
+recordings_dir: recordings
+sensor_package: ""
+recording_mode: cpp_writer
+topics:
+  - /imu/data
+  - /camera/image_raw
+analysis:
+  /imu/data:
+    enabled: true
+    expected_hz: 10.0
+    anomaly_threshold: 5.0
+    sensor_range: [-19.6, 19.6]
+  /camera/image_raw:
+    enabled: true
+    expected_hz: 10.0
+    anomaly_threshold: null
+    sensor_range: null

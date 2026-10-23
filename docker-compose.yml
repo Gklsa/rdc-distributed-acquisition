@@ -1,0 +1,31 @@
+# Review helper for a single Linux host with prepared ROS 2 image and built workspace.
+# Original site-specific orchestration is excluded. Nothing is downloaded at runtime
+# by the commands below; the named images must already exist locally.
+x-ros: &ros
+  image: ${RDC_ROS_IMAGE:-rdc-ros2:local}
+  network_mode: host
+  working_dir: /ros2_ws
+  volumes:
+    - .:/ros2_ws
+  environment:
+    ROS_DOMAIN_ID: ${ROS_DOMAIN_ID:-42}
+    FASTDDS_BUILTIN_TRANSPORTS: UDPv4
+
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2
+    network_mode: host
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+  sensors:
+    <<: *ros
+    command: bash -lc 'source /opt/ros/$$ROS_DISTRO/setup.bash && source install/setup.bash && ros2 launch rdc_bringup sensors.launch.py'
+  coordinator:
+    <<: *ros
+    command: bash -lc 'source /opt/ros/$$ROS_DISTRO/setup.bash && source install/setup.bash && ros2 launch rdc_bringup pc_master.launch.py master_device_id:=${MASTER_DEVICE:-review_pc}'
+  worker1:
+    <<: *ros
+    command: bash -lc 'source /opt/ros/$$ROS_DISTRO/setup.bash && source install/setup.bash && ros2 launch rdc_bringup pi_worker.launch.py device_name:=device1 topics:=/imu/data,/temperature mqtt_broker_host:=${MQTT_HOST:-localhost} recording_mode:=${RECORDING_MODE:-python_subprocess} accepted_master_device_id:=${MASTER_DEVICE:-review_pc}'
+  worker2:
+    <<: *ros
+    command: bash -lc 'source /opt/ros/$$ROS_DISTRO/setup.bash && source install/setup.bash && ros2 launch rdc_bringup pi_worker.launch.py device_name:=device2 topics:=/camera/image_raw mqtt_broker_host:=${MQTT_HOST:-localhost} recording_mode:=${RECORDING_MODE:-python_subprocess} accepted_master_device_id:=${MASTER_DEVICE:-review_pc}'

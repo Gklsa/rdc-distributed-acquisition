@@ -1,0 +1,33 @@
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+id_rsa*
+id_ed25519*
+# Generated or private experiment artifacts
+recordings/
+recordings_copy/
+recording_analysis_output/
+analysis_output/
+*.mcap
+*.db3
+*.bag
+*.log
+# ROS and Python build artifacts
+build/
+install/
+log/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+# Local device settings; commit only reviewed templates
+src/devices_config/*.yaml
+!src/devices_config/*.example.yaml
+.DS_Store
+.vscode/
+.idea/

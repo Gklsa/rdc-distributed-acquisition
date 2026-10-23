@@ -1,0 +1,37 @@
+# Pip-installable dependencies for src/tools/recording_analysis.ipynb.
+# Install with: pip install -r requirements.txt
+#
+# Viewing recording_analysis_output.html needs only a browser; none of these
+# packages are required on the viewing computer.
+#
+# Real Mode 1/2 analysis additionally requires ROS2-provided modules that must
+# match the installed ROS2 distribution and therefore are NOT pip dependencies:
+#   rosbag2_py, rclpy, rosidl_runtime_py, sensor_msgs, rosbag2_storage_mcap
+# Source /opt/ros/<distro>/setup.bash before running real rosbag analysis.
+
+# Analysis and static report
+numpy
+pandas
+matplotlib
+pyyaml
+
+# Interactive dashboard and live YAML editor
+plotly
+ipywidgets
+
+# Notebook interfaces and widget frontends
+jupyterlab
+notebook
+ipykernel
+jupyterlab_widgets
+widgetsnbextension
+
+# Headless execution and HTML/IPYNB export used by `make analysis`
+nbconvert
+nbclient
+nbformat
+jupyter-core
+jupyter-client
+
+# Live MQTT dashboard
+paho-mqtt

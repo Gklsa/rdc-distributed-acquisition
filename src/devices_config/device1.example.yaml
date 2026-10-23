@@ -1,0 +1,19 @@
+# Generic review template: real TMP116 temperature worker.
+# Copy to a locally ignored device1.yaml and fill in your own deployment details.
+device_name: device1
+pi_ip: "<DEVICE_HOST>"
+pi_user: "<SSH_USER>"
+container_name: "<ROS_CONTAINER>"
+mqtt_broker: localhost
+accepted_master_device_id: review_pc
+recordings_dir: recordings
+sensor_package: ti_tmp116
+recording_mode: python_subprocess
+topics:
+  - /temperature
+analysis:
+  /temperature:
+    enabled: true
+    expected_hz: 1.0
+    anomaly_threshold: 10.0
+    sensor_range: [-40.0, 60.0]
